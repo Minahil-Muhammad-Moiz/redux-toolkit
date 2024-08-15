@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeTodo, updateTodo } from "../features/todo/todoSlice";
+import EditTodo from "./EditTodo";
 
 const Todos = () => {
+  // const [edit, setEdit] = useState(false)
   const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
   return (
@@ -14,9 +16,14 @@ const Todos = () => {
             <button onClick={() => dispatch(removeTodo(todo.id))}>
               DELETE
             </button>
-            <button onClick={() => dispatch(updateTodo(todo.id, todo.text, !todo.completed))}>
+            <button
+              onClick={() =>
+                dispatch(updateTodo({ id: todo.id, text: todo.text, edit: true }))
+              }
+            >
               UPDATE
             </button>
+            {todo.edit && <EditTodo id={todo.id}/>}
           </li>
         ))}
       </ul>
